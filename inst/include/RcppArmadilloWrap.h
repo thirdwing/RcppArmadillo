@@ -86,6 +86,12 @@ namespace Rcpp{
         Vector<RTYPE> x(sm.values, sm.values + sm.n_nonzero ) ;
         IntegerVector i(sm.row_indices, sm.row_indices + sm.n_nonzero);
         IntegerVector p(sm.col_ptrs, sm.col_ptrs + sm.n_cols+1 ) ;
+        IntegerVector::iterator it = p.end();
+        while (*it == 0) {--it;}
+        if (it != p.end()) std::fill(it + 1, p.end(), *it);
+        /*for (int i = sm.n_nonzero + 1; i <= sm.n_cols; ++i) {*/
+          //p[i] = p[sm.n_nonzero];
+        /*}*/
 
         std::string klass ;
         switch( RTYPE ){
